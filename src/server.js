@@ -4,6 +4,7 @@ import morgan from 'morgan'
 import cors from 'cors'
 
 export const app = express()
+const router = express.Router()
 
 app.disable('x-powered-by')
 
@@ -12,10 +13,21 @@ app.use(json())
 app.use(urlencoded({ extended: true }))
 app.use(morgan('dev'))
 
+// MIDDLEWARES
+
 const myMiddleware = (req, res, next) => {
   console.log('hello middleware')
   next()
 }
+
+// ROUTERS
+router.get('/me', (req, res) => {
+  res.send({ me: 'hello' })
+})
+
+// MAIN APP
+
+app.use('/api', router)
 
 app.get('/', myMiddleware, (req, res) => {
   res.send({ message: 'Hello' })
@@ -33,6 +45,8 @@ app.get('/data', (req, res) => {
 app.post('/data', (req, res) => {
   res.send(req.body)
 })
+
+// START BUTTON
 
 export const start = () => {
   app.listen(3000, () => {
