@@ -15,7 +15,7 @@ app.use(json())
 app.use(urlencoded({ extended: true }))
 app.use(morgan('dev'))
 
-app.use(router)
+app.use('/api/item', router)
 
 export const start = async () => {
   try {
